@@ -127,24 +127,5 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
             return Ok(events);
         }
 
-        ////Register for Event
-        //[HttpPost("register/{eventId}")]
-        //public IActionResult RegisterForEvent(int eventId, RegistrationDto registrationDto)
-        //{
-        //    var evt = _context.Events.Find(eventId);
-        //    if (evt == null)
-        //    {
-        //        return NotFound($"Event with ID {eventId} not found.");
-        //    }
-        //    var registration = new Registration
-        //    {
-        //        eventId = eventId,
-        //        userId = registrationDto.userId,
-        //        registrationDate = DateTime.Now
-        //    };
-        //    _context.Registrations.Add(registration);
-        //    _context.SaveChanges();
-        //    return Ok(registration);
-        //}
     }
 }

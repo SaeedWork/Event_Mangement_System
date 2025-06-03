@@ -17,6 +17,9 @@ namespace Event_Mangement_System_WebTech_Project.Models
         [Required]
         public DateTime registeredAt { get; set; }
 
+        [Required]
+        public bool isConfirmed { get; set; } = true;
+
         // Navigation
         public User Attendee { get; set; }
         public Event Event { get; set; }
