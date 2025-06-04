@@ -6,7 +6,7 @@ namespace Event_Mangement_System_WebTech_Project.Models
     public class Registration
     {
         [Key]
-        public int registerationId { get; set; }
+        public int registrationId { get; set; }
 
         [ForeignKey("Attendee")]
         public int attendeeId { get; set; }

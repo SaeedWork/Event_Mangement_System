@@ -79,7 +79,8 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpGet("search/{name}")]
         public IActionResult SearchEventTypeByName(string name)
         {
-            var eventType = _context.EventTypes.FirstOrDefault(e => e.typeName.Contains(name, StringComparison.OrdinalIgnoreCase));
+            var eventType = _context.EventTypes
+            .FirstOrDefault(e => e.typeName.ToLower().Contains(name.ToLower()));
             if (eventType == null)
             {
                 return NotFound($"No event type found with name {name}.");

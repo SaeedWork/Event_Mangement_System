@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Event_Mangement_System_WebTech_Project.Models
 {
@@ -26,7 +27,9 @@ namespace Event_Mangement_System_WebTech_Project.Models
         // Nav relationship
         public Role Role { get; set; }
 
+        [JsonIgnore]
         public ICollection<Event> OrganizedEvents { get; set; } = new List<Event>();
+        [JsonIgnore]
         public ICollection<Registration> Registrations { get; set; } = new List<Registration>();
     }
 

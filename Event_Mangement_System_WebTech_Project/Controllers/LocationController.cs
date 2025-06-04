@@ -89,9 +89,13 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpGet("search/{name}")]
         public IActionResult SearchLocationsByName(string name)
         {
+            //var locations = _context.Locations
+            //    .Where(l => l.locationName.ToLower().Contains(name.ToLower(), StringComparison.OrdinalIgnoreCase))
+            //    .ToList();
             var locations = _context.Locations
-                .Where(l => l.locationName.Contains(name, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            .Where(l => l.locationName.ToLower().Contains(name.ToLower()))
+            .ToList();
+
             if (locations == null || !locations.Any())
             {
                 return NotFound($"No locations found with name containing '{name}'.");

@@ -24,7 +24,7 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpGet]
         public ActionResult GetAllRegistrations()
         {
-            var registrations = _context.Registerations
+            var registrations = _context.Registrations
                 .Include(r => r.Event)
                 .Include(r => r.Attendee)
                 .ToList();
@@ -39,7 +39,7 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpGet("{userId}")]
         public ActionResult GetUserRegistrations(int userId)
         {
-            var registrations = _context.Registerations
+            var registrations = _context.Registrations
                 .Where(r => r.attendeeId == userId)
                 .Include(r => r.Event)
                 .ToList();
@@ -67,7 +67,7 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
                 registeredAt = DateTime.UtcNow
             };
 
-            _context.Registerations.Add(registration);
+            _context.Registrations.Add(registration);
             _context.SaveChanges();
 
             return Ok(registration);
@@ -77,7 +77,7 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpPut("{id}")]
         public IActionResult DeregisterFromEvent(int id)
         {
-            var registration = _context.Registerations.Find(id);
+            var registration = _context.Registrations.Find(id);
             if (registration == null)
             {
                 return NotFound($"Registration with ID {id} not found.");
@@ -93,12 +93,12 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
         [HttpDelete("{id}")]
         public IActionResult RemoveRegistration(int id)
         {
-            var registration = _context.Registerations.Find(id);
+            var registration = _context.Registrations.Find(id);
             if (registration == null)
             {
                 return NotFound($"Registration with ID {id} not found.");
             }
-            _context.Registerations.Remove(registration);
+            _context.Registrations.Remove(registration);
             _context.SaveChanges();
             return Ok($"Successfully removed registration with ID {id}.");
         }
