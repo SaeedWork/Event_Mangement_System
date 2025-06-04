@@ -16,6 +16,7 @@ namespace Event_Mangement_System_WebTech_Project.Services
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
         public object Registerations { get; internal set; }
+        public object UserRoles { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
