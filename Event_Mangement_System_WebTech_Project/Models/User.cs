@@ -21,6 +21,9 @@ namespace Event_Mangement_System_WebTech_Project.Models
         [Required]
         public byte[] passwordHash { get; set; }
 
+        [Required]
+        public byte[] passwordSalt { get; set; }
+
         [ForeignKey("Role")]
         public int userRoleId { get; set; }
 

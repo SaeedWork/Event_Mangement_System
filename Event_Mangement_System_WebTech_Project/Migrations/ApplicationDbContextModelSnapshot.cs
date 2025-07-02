@@ -138,7 +138,7 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
                     b.HasIndex("attendeeId", "eventId")
                         .IsUnique();
 
-                    b.ToTable("Registerations");
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("Event_Mangement_System_WebTech_Project.Models.Role", b =>
@@ -172,6 +172,10 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<byte[]>("passwordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("passwordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 

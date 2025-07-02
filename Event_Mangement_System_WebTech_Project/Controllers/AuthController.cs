@@ -36,6 +36,7 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
                 userName = userDto.userName,
                 email = userDto.email,
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.passwordHash)),
+                passwordSalt = hmac.Key,
                 userRoleId = userDto.userRoleId
             };
 
@@ -46,43 +47,46 @@ namespace Event_Mangement_System_WebTech_Project.Controllers
 
         //Login
         [HttpPost("login")]
-        public IActionResult Login(UserDto userDto) 
+        public async Task<IActionResult> Login(UserDto userDto)
         {
-            var user = _context.Users.FirstOrDefault(x => x.userName == userDto.userName);
-            if (user == null)
-            {
+            var user = await _context.Users
+                                     .Include(u => u.Role)
+                                     .FirstOrDefaultAsync(x => x.userName == userDto.userName);
+
+            if (user is null)
                 return Unauthorized("Invalid username or password.");
-            }
 
-            using var hmac = new HMACSHA512(user.passwordHash);
+            // validate password
+            using var hmac = new HMACSHA512(user.passwordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.passwordHash));
-            if (!computedHash.SequenceEqual(user.passwordHash)) { return Unauthorized("Invalid Password!"); }
+            if (!computedHash.SequenceEqual(user.passwordHash))
+                return Unauthorized("Invalid password.");
 
-            var token = CreateTokenAsync(userDto);
-            return Ok(token);
+            // create JWT
+            var token = await CreateTokenAsync(user);   
+            return Ok(new { token });                   
         }
 
         //function for Creating JWT Token
-        private async Task<string> CreateTokenAsync(UserDto userDto)
+        private Task<string> CreateTokenAsync(User user)
         {
-            var usr = await _context.Users
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.email == userDto.email);
-
-
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userDto.userName),
-                new Claim(ClaimTypes.Role , usr.Role.roleName)
-            };
+        new Claim(ClaimTypes.NameIdentifier, user.userName),
+        new Claim(ClaimTypes.Role, user.Role.roleName)
+    };
+
             var key = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(_configuration["TokenKey"] ?? "SuperSecretKey"));
+                Encoding.UTF8.GetBytes(_configuration["TokenKey"] ?? "SuperSecretKey"));
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
-                    signingCredentials: creds);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds);
+
+            return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
+
     }
 }

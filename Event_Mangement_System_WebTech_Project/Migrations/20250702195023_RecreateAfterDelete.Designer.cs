@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Event_Mangement_System_WebTech_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250603133913_UpdateOf6_3_2025")]
-    partial class UpdateOf6_3_2025
+    [Migration("20250702195023_RecreateAfterDelete")]
+    partial class RecreateAfterDelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,11 +116,11 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
 
             modelBuilder.Entity("Event_Mangement_System_WebTech_Project.Models.Registration", b =>
                 {
-                    b.Property<int>("registerationId")
+                    b.Property<int>("registrationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("registerationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("registrationId"));
 
                     b.Property<int>("attendeeId")
                         .HasColumnType("int");
@@ -134,14 +134,14 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
                     b.Property<DateTime>("registeredAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("registerationId");
+                    b.HasKey("registrationId");
 
                     b.HasIndex("eventId");
 
                     b.HasIndex("attendeeId", "eventId")
                         .IsUnique();
 
-                    b.ToTable("Registerations");
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("Event_Mangement_System_WebTech_Project.Models.Role", b =>

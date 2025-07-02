@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Event_Mangement_System_WebTech_Project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250603141626_UpdatedRegistrationSpellingMistake6_3_2025")]
-    partial class UpdatedRegistrationSpellingMistake6_3_2025
+    [Migration("20250702202735_UserTableUpdate")]
+    partial class UserTableUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
                     b.HasIndex("attendeeId", "eventId")
                         .IsUnique();
 
-                    b.ToTable("Registerations");
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("Event_Mangement_System_WebTech_Project.Models.Role", b =>
@@ -175,6 +175,10 @@ namespace Event_Mangement_System_WebTech_Project.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<byte[]>("passwordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("passwordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
